@@ -1,39 +1,32 @@
-import mediapipe as mp
 import cv2
-import numpy as np
-import uuid
-import os
+from hand_tracker import HandTracker
+from utils import initialize_camera
+from gesture_recognition import recognize_gesture
 
-md_drawings = mp.solutions.drawing_utils
-mp_hands = mp.solutions.hands
+def main():
+    cap = initialize_camera()
+    hand_tracker = HandTracker()
 
-cap = cv2.VideoCapture(0) # only for macos
-
-with mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5, max_num_hands=4) as hands:
     while cap.isOpened():
-        ret, frame = cap.read()  # read the frame
+        ret, frame = cap.read()
         if not ret:
-            print("Error: frame can not be read")
+            print("Error: frame cannot be read")
             break
+        
+        processed_frame, results = hand_tracker.process_frame(frame)
 
-        # Detect the hands
-        image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)  # convert the frame to RGB
-        image.flags.writeable = False  # make the image read-only
-        results = hands.process(image)  # detect the hands
-        image.flags.writeable = True  # make the image writeable
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)  # convert the image back to BGR
-        print(results)
+        if results and results.multi_hand_landmarks:
+            for hand_landmarks in results.multi_hand_landmarks:
+                gesture = recognize_gesture(hand_landmarks)
+                if gesture:
+                    print(f"Gesture recognized: {gesture}")
 
-        # Draw the landmarks
-        if results.multi_hand_landmarks:
-            for num, hand in enumerate(results.multi_hand_landmarks):
-                md_drawings.draw_landmarks(image, hand, mp_hands.HAND_CONNECTIONS,
-                                            md_drawings.DrawingSpec(color=(0, 0, 0), thickness=2, circle_radius=10),
-                                            md_drawings.DrawingSpec(color=(255, 255, 255), thickness=4, circle_radius=4))
-        cv2.imshow('Hand Tracking', image)  # display the processed image
+        cv2.imshow('Hand Tracking', processed_frame)
 
         if cv2.waitKey(10) & 0xFF == ord('q'):
-            break  # stop
+            break
+    cap.release()
+    cv2.destroyAllWindows()
 
-cap.release()  # delete the VideoCapture object
-cv2.destroyAllWindows()  # close all windows
+if __name__ == "__main__":
+    main()
