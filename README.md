@@ -1,19 +1,61 @@
-Модуль управления Unitree Go1 EDU | Распознание жестов
+# Unitree Go1 EDU Gesture Control Module
 
-Описание
+## 📌 Overview
+The **Unitree Go1 EDU Gesture Control Module** enables users to control the robot using hand gestures. Leveraging computer vision and machine learning, this module recognizes user gestures and translates them into movement commands for the robot.
 
-Модуль управления Unitree Go1 EDU предназначен для управления роботом с помощью жестов. Используя технологии компьютерного зрения и машинного обучения, данный модуль позволяет распознавать жесты пользователя и преобразовывать их в команды для управления движениями робота.
+## ✨ Features
+- ✅ Real-time gesture recognition using computer vision
+- ✅ Integration with ROS for seamless communication
+- ✅ Machine learning-based gesture classification
+- ✅ Support for various gestures to control robot movements
 
-Используемые библиотеки
+## 🛠 Technologies Used
+- **🔹 OpenCV**: Image and video processing library for capturing and analyzing video streams.
+- **🔹 NumPy**: Library for handling multidimensional arrays and performing mathematical operations.
+- **🔹 ROS (Robot Operating System)**: A framework that facilitates communication between system components.
+- **🔹 PyTorch**: Deep learning library used for training and implementing gesture recognition models.
+- **🔹 MediaPipe**: Multimedia processing library providing tools for gesture recognition and motion tracking.
 
-- OpenCV: Библиотека для обработки изображений и видео, используемая для захвата и анализа видеопотока.
-- Numpy: Библиотека для работы с многомерными массивами и матрицами, а также для выполнения математических операций.
-- ROS (Robot Operating System)**: Фреймворк для разработки программного обеспечения для роботов, который обеспечивает взаимодействие между различными компонентами системы.
-- PyTorch: Библиотека для машинного обучения, используемая для создания и обучения моделей глубокого обучения для распознавания жестов.
-- MediaPipe: Библиотека для обработки мультимедиа, которая предоставляет инструменты для распознавания жестов и отслеживания движений.
+## 🔧 Installation
+### 📌 Prerequisites
+Ensure you have the following installed:
+- 🐍 Python (version <= 3.12 recommended)
+- 🤖 ROS (Robot Operating System)
 
-Установка
+### 📥 Installing Dependencies
+Use the following command to install the required libraries:
+```bash
+pip install opencv-python numpy torch mediapipe
+```
 
-1. Убедитесь, что у вас установлены все необходимые библиотеки. Вы можете установить их с помощью pip:
-   ```bash
-   pip install opencv-python numpy torch mediapipe (python version <=3.12)
+## 🚀 Getting Started
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-repo/unitree-go1-gesture-control.git
+cd unitree-go1-gesture-control
+```
+
+### 2️⃣ Run the Gesture Recognition Module
+Execute the following command to start the gesture control system:
+```bash
+python gesture_control.py
+```
+
+### 3️⃣ Connect to ROS
+Ensure that ROS is running before executing the module:
+```bash
+roscore &
+python ros_publisher.py
+```
+
+## 🎮 Usage
+- 👋 Perform predefined gestures in front of the camera.
+- 🤖 The system will recognize gestures and send corresponding movement commands to the **Unitree Go1 EDU**.
+- 🖥 Check the ROS topics for real-time updates on gesture recognition.
+
+## 🤝 Contribution
+Feel free to contribute by submitting issues or pull requests. 
+
+## 📜 License
+This project is licensed under the **MIT License**.
+
