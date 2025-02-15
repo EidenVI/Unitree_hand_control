@@ -38,7 +38,7 @@ cd unitree-go1-gesture-control
 ### 2️⃣ Run the Gesture Recognition Module
 Execute the following command to start the gesture control system:
 ```bash
-python gesture_control.py
+python main.py
 ```
 
 ### 3️⃣ Connect to ROS
