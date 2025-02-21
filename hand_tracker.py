@@ -8,29 +8,49 @@ class HandTracker:
                                          min_tracking_confidence=min_tracking_confidence,
                                          max_num_hands=max_num_hands)
         self.md_drawings = mp.solutions.drawing_utils
+        
+        """_summary_
+        HandTracker class is responsible for detecting hands and creating its skeleton
+
+            Attributes:
+                self.mp_hands: mediapipe class for hands
+                self.hands: mediapipe mp_hands's class object
+                self.mp_drawings: mediapipe drawing utils object
+                
+            Parameters:
+                min_detection_confidence: Minimum confidence value ([0.0, 1.0]) for hand detection to be considered successful
+                min_tracking_confidence: Minimum confidence value ([0.0, 1.0]) for the hand landmarks to be considered tracked
+                max_num_hands: Maximum number of hands to detect
+            
+        - We use the HandTracker class to process each frame and detect hands in the frame.
+        """
 
     def process_frame(self, frame):
-        """
-        Обрабатывает один кадр, выполняя обнаружение рук и создает их скелет
-
-        :param frame: Входной кадр (изображение) в формате BGR.
-        :return: Изображение с нарисованными ключевыми точками рук.
+        """_summary_
+        Process the frame -> detect hands -> draw landmarks
+        
+            Parameters:
+                frame: frame to be processed
+            
+            Returns:
+                image: frame with landmarks drawn
+                results: landmarks coordinates
+                
+        - Used to create the skeleton of the hand in the frame
         """
         try:
-            # Преобразование цвета
             image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             results = self.hands.process(image)
             image.flags.writeable = True
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-            #  Ключевые точки рук
             if results.multi_hand_landmarks:
                 for hand in results.multi_hand_landmarks:
                     self.md_drawings.draw_landmarks(image, hand, self.mp_hands.HAND_CONNECTIONS,
                                                     self.md_drawings.DrawingSpec(color=(0, 0, 0), thickness=2, circle_radius=10),
                                                     self.md_drawings.DrawingSpec(color=(255, 255, 255), thickness=4, circle_radius=4))
-            return image, results  # Возвращаем как изображение, так и результаты
+            return image, results
         except Exception as e:
             print(f"Error processing frame: {e}")
-            return frame, None  # Возвращаем оригинальный кадр в случае ошибки
+            return frame, None

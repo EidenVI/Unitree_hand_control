@@ -4,7 +4,7 @@ mp_hands = mp.solutions.hands
 hands  = mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
 
-def recognize_gesture(hand_landmarks):
+def recognize_gesture(hand_landmarks, hand_type):
     # Recognize gestures
     if hand_landmarks is not None:
         # Get the landmarks
